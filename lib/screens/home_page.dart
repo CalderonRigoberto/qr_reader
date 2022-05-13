@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:qr_reader/providers/db_provider.dart';
+import 'package:qr_reader/providers/scan_provider.dart';
 import 'package:qr_reader/providers/ui_state.dart';
 
 import 'package:qr_reader/screens/screens.dart';
@@ -42,15 +42,17 @@ class _HomePageBody extends StatelessWidget {
 
     //TODO temporal leer la base de datos
 
-    //final tempScan = ScanModel(valor: 'https://google.com');
-
-    DBProvider.db.obtenerTodosScans().then((scan) => print(scan));
+    final scanListProvider =
+        Provider.of<ScanListProvider>(context, listen: false);
     switch (currentIndex) {
       case 0:
+        scanListProvider.cargarScansTipo('geo');
         return const MapasPages();
       case 1:
+        scanListProvider.cargarScansTipo('http');
         return const DireccionesPages();
       default:
+        scanListProvider.cargarScansTipo('geo');
         return const MapasPages();
     }
   }
