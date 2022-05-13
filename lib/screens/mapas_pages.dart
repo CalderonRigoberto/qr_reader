@@ -9,21 +9,26 @@ class MapasPages extends StatelessWidget {
   Widget build(BuildContext context) {
     final scanListProvider =
         Provider.of<ScanListProvider>(context, listen: true);
-    scanListProvider.cargarScansTipo('geo');
     return ListView.builder(
         itemCount: scanListProvider.scans.length,
-        itemBuilder: (_, index) => ListTile(
-              leading: Icon(
-                Icons.map,
-                color: Theme.of(context).primaryColor,
+        itemBuilder: (_, index) => Dismissible(
+          key: UniqueKey(),
+          background: Container(
+            color: Colors.red,
+          ),
+          onDismissed: (DismissDirection direction) => Provider.of<ScanListProvider>(context, listen: false).borrarPorId(scanListProvider.scans[index].id!),
+          child: ListTile(
+                leading: Icon(
+                  Icons.map,
+                  color: Theme.of(context).primaryColor,
+                ),
+                title: Text(scanListProvider.scans[index].valor),
+                subtitle: Text(scanListProvider.scans[index].id.toString()),
+                trailing: const Icon(
+                  Icons.keyboard_arrow_right,
+                  color: Colors.grey,
+                ),
               ),
-              title: Text(scanListProvider.scans[index].valor),
-              subtitle: Text(scanListProvider.scans[index].id.toString()),
-              trailing: const Icon(
-                Icons.keyboard_arrow_right,
-                color: Colors.grey,
-              ),
-              onTap: () => null,
-            ));
+        ));
   }
 }
