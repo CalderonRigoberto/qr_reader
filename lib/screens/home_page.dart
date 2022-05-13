@@ -12,6 +12,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scanListProvider = Provider.of<ScanListProvider>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         title:
@@ -19,7 +21,9 @@ class HomePage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: () {},
+            onPressed: () {
+              scanListProvider.borrarTodos();
+            },
           )
         ],
       ),
@@ -52,7 +56,6 @@ class _HomePageBody extends StatelessWidget {
         scanListProvider.cargarScansTipo('http');
         return const DireccionesPages();
       default:
-        scanListProvider.cargarScansTipo('geo');
         return const MapasPages();
     }
   }
